@@ -14,6 +14,9 @@ import {
 
 import validateBody from "../helpers/validateBody.js";
 import { isAuth } from "../helpers/isAuth.js";
+import { uploadMiddleware } from "../helpers/upload.js";
+import { updateUser } from "../controllers/userControllers.js";
+import { checkAvatarExists } from "../helpers/avatarExist.js";
 
 const authRouter = express.Router();
 
@@ -24,5 +27,14 @@ authRouter.post("/login", validateBody(signInUserSchema), login);
 authRouter.post("/logout", isAuth, logout);
 
 authRouter.get("/current", isAuth, getCurrent);
+
+authRouter.patch(
+  "/avatars",
+  isAuth,
+  uploadMiddleware.single("avatar"),
+  updateUser,
+);
+
+authRouter.get("/avatars/:id", checkAvatarExists);
 
 export default authRouter;
