@@ -1,26 +1,33 @@
 import Contacts from "../schemas/contactsSchema.js";
 
-async function listContacts() {
-   return Contacts.find()
+async function listContacts(owner) {
+  return Contacts.find({ owner });
 }
 
-async function getContactById(_id) {
-    return Contacts.findOne({_id})
+async function getContactById(_id, owner) {
+  return Contacts.findOne({ _id, owner });
 }
 
-async function removeContact(_id) {
-    return Contacts.findOneAndDelete({_id})
+async function removeContact(_id, owner) {
+  return Contacts.findOneAndDelete({ _id, owner });
 }
 
-async function addContact({...body}) {
-    return Contacts.create(body)
+async function addContact({ ...body }) {
+  return Contacts.create(body);
 }
-async function updateContact (_id, body) {
-    return Contacts.findByIdAndUpdate({_id}, body, {new: true})
-}
-
-async function updateStatusContact (_id, value) {
-    return Contacts.findByIdAndUpdate({_id}, value, {new: true})
+async function updateContact(_id, body, owner) {
+  return Contacts.findOneAndUpdate({ _id, owner }, body, { new: true });
 }
 
-export {listContacts, getContactById, removeContact, addContact, updateContact, updateStatusContact}
+async function updateStatusContact(_id, value, owner) {
+  return Contacts.findOneAndUpdate({ _id, owner }, value, { new: true });
+}
+
+export {
+  listContacts,
+  getContactById,
+  removeContact,
+  addContact,
+  updateContact,
+  updateStatusContact,
+};
