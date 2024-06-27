@@ -5,7 +5,6 @@ import mongoose from "mongoose";
 mongoose.Promise = global.Promise;
 import path from "path";
 import "dotenv/config";
-
 import contactsRouter from "./routes/contactsRouter.js";
 import authRouter from "./routes/authRouter.js";
 
@@ -25,7 +24,6 @@ mongoose
 app.use(morgan("tiny"));
 app.use(cors());
 app.use(express.json());
-
 app.use("/api/contacts", contactsRouter);
 app.use("/users", authRouter);
 app.use("/users/avatars", express.static(path.resolve("public", "avatars")));
